@@ -17,4 +17,13 @@ def emotion_detector(text_to_analyze : str):
     # Retrieve the response from the NLP model
     response_text = response.text
 
-    return response_text
+    #Retrieve the emotions alone.
+    emotion_dict = json.loads(response_text)['emotionPredictions'][0]['emotion']
+
+    # Identify the max score and the dominant emotion.
+    dominant_emotion = max(emotion_dict, key=emotion_dict.get)
+
+   # Add the dominant emotion to the dictionary.    
+    emotion_dict['dominant_emotion'] = dominant_emotion
+
+    return emotion_dict
