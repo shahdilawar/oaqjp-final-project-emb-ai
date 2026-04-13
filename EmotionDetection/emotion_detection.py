@@ -17,6 +17,17 @@ def emotion_detector(text_to_analyze : str):
     # Retrieve the response from the NLP model
     response_text = response.text
 
+    # Handle balnk input
+    if response.status_code == 400:
+        return {
+            'anger': None,
+            'disgust': None,
+            'fear': None,
+            'joy': None,
+            'sadness': None,
+            'dominant_emotion': None
+        }
+
     #Retrieve the emotions alone.
     emotion_dict = json.loads(response_text)['emotionPredictions'][0]['emotion']
 

@@ -9,16 +9,26 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
+    '''
+    This method is to route to index page.
+    '''
     return render_template("index.html")
 
 @app.route("/emotionDetector")
 def emotion_analyzer():
+    '''
+    This method will take in the user sentence and analyze the dominant emotion.
+    '''
 
     # retrieve the input query value
     text_to_analyze = request.args.get("textToAnalyze")
 
     # Retrieve the emotion dictionary
     emotion_dict = emotion_detector(text_to_analyze)
+
+    # handle invalid / blank input
+    if emotion_dict['dominant_emotion'] is None:
+        return "Invalid text! Please try again!"
 
     # Format the output
     formatted_output = format_output(emotion_dict)
@@ -42,3 +52,4 @@ def format_output(result):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+    
